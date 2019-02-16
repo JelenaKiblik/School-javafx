@@ -65,5 +65,3 @@ Näiteks saab määrata: kas muusika mängib
 5. praktikum: testide kirjutamine, edetabel
 6. praktikum: Esitamine (vahe esitamine, et saada tagasisidet), paranduste tegemine, JAR-komplekteerimine
 7. praktikum: Lõplik esitamine
-
-[https://www.geek.com/wp-content/uploads/2014/02/flappy-bird-04-700x393-625x350.jpg](url)
