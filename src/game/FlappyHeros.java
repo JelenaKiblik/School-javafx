@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -15,15 +16,21 @@ public class FlappyHeros extends Application {
 
         StackPane root = new StackPane();
         Scene scene = new Scene(root, 800, 600);
+        root.getStylesheets().add("game/stylesheet.css");
 
         Button startButton = new Button("Alusta");
+        startButton.getStyleClass().add("buttonDefault");
         Button instructions = new Button("Juhised");
+        instructions.getStyleClass().add("buttonDefault");
         Button settings = new Button("Seaded");
-        Button exit = new Button("Välju");
+        settings.getStyleClass().add("buttonDefault");
         Button scoreBoard = new Button("Edetabel");
+        scoreBoard.getStyleClass().add("buttonDefault");
+        Button exit = new Button("Välju");
+        exit.getStyleClass().add("buttonDefault");
 
         VBox vbButtons = new VBox();
-        vbButtons.setSpacing(50);
+        vbButtons.setSpacing(30);
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
 
@@ -32,7 +39,12 @@ public class FlappyHeros extends Application {
                 BackgroundSize.DEFAULT);
         root.setBackground(new Background(myBI));
 
-        root.getChildren().addAll(vbButtons);
+        Image image = new Image("game/flappy_logo.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setTranslateX(0);
+        imageView.setTranslateY(-200);
+
+        root.getChildren().addAll(vbButtons, imageView);
         primaryStage.setTitle("FlappyHeros");
         primaryStage.setScene(scene);
         primaryStage.show();
