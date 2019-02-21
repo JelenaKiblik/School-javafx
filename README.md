@@ -1,4 +1,4 @@
-# Flappy Bird projektiplaan
+# Flappy Heroes projektiplaan
 
 # Kirjeldus:
 Tuleb vajutada ekraani peale, et tegelane ei kukuks alla või ei puudutaks takistusi.
@@ -59,9 +59,9 @@ Näiteks saab määrata: kas muusika mängib
 # Ajaplaan
 
 1. praktikum: projektiplaaniga alustamine, tiimi komplekteerimine
-2. praktikuml: projektiplaani esitamine
+2. praktikum: projektiplaani esitamine
 3. praktikum: ekraanijooniste koostamine, JavaFX-ga alustamine, flappy bird objekt, liikumine, seaded
-4. praktikuml: takistused, mängutaseme kaart, kujundamine, muusika
+4. praktikum: takistused, mängutaseme kaart, kujundamine, muusika
 5. praktikum: testide kirjutamine, edetabel
 6. praktikum: Esitamine (vahe esitamine, et saada tagasisidet), paranduste tegemine, JAR-komplekteerimine
 7. praktikum: Lõplik esitamine
