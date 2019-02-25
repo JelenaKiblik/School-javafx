@@ -1,5 +1,6 @@
 package game;
 
+import game.functionality.PageChange;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -9,23 +10,34 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class FlappyHeros extends Application {
+
+    private StackPane root = new StackPane();
+    private Scene scene = new Scene(root, 800, 600);
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        StackPane root = new StackPane();
-        Scene scene = new Scene(root, 800, 600);
         root.getStylesheets().add("game/stylesheet.css");
 
         Button startButton = new Button("Alusta");
         startButton.getStyleClass().add("buttonDefault");
+
         Button instructions = new Button("Juhised");
         instructions.getStyleClass().add("buttonDefault");
+
         Button settings = new Button("Seaded");
         settings.getStyleClass().add("buttonDefault");
+
         Button scoreBoard = new Button("Edetabel");
         scoreBoard.getStyleClass().add("buttonDefault");
+
         Button exit = new Button("Välju");
         exit.getStyleClass().add("buttonDefault");
 
@@ -48,10 +60,26 @@ public class FlappyHeros extends Application {
         primaryStage.setTitle("FlappyHeros");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        instructions.setOnMouseClicked(event -> {
+            try {
+                changePage(PageChange.INFO);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        exit.setOnAction(event -> primaryStage.close());
     }
 
+    private void changePage(PageChange page) throws IOException {
+        String name = page.name().toLowerCase();
 
-    public static void main(String[] args) {
-        launch(args);
+        if (name.equals("info")) {
+            root.getChildren().removeAll(root.getChildren());
+            Instructions instructions = new Instructions();
+            root.getChildren().addAll();
+        }
     }
 }

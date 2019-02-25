@@ -1,0 +1,4 @@
+- Mängu alustades on vaja sisestada nimi ja valida oma hero
+- Hero liigutamiseks on vaja vajutada ekraanile
+- Mäng läbi kui hero puudutab takistus
+- Mäng läbi kui hero kukkub
