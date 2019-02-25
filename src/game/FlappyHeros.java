@@ -22,7 +22,7 @@ public class FlappyHeros extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
         root.getStylesheets().add("game/stylesheet.css");
 
