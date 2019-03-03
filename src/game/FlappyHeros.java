@@ -1,5 +1,6 @@
 package game;
 
+import game.Instructions.Instructions;
 import game.functionality.PageChange;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -70,7 +71,6 @@ public class FlappyHeros extends Application {
                 e.printStackTrace();
             }
         });
-
 
         instructions.setOnMouseClicked(event -> {
             try {
