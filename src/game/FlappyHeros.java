@@ -9,13 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class FlappyHeros extends Application {
 
     private StackPane root = new StackPane();
     private Scene scene = new Scene(root, 800, 600);
+    private boolean newGame;
 
     public static void main(String[] args) {
         launch(args);
@@ -46,7 +46,7 @@ public class FlappyHeros extends Application {
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
 
-        BackgroundImage myBI= new BackgroundImage(new Image("game/super_hero.jpg",800,600,false,true),
+        BackgroundImage myBI = new BackgroundImage(new Image("game/super_hero.jpg",800,600,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         root.setBackground(new Background(myBI));
@@ -60,6 +60,16 @@ public class FlappyHeros extends Application {
         primaryStage.setTitle("FlappyHeros");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+
+        startButton.setOnMouseClicked(event -> {
+            try {
+                newGame = false;
+                changePage(PageChange.HEROES);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
 
         instructions.setOnMouseClicked(event -> {
@@ -79,7 +89,8 @@ public class FlappyHeros extends Application {
         if (name.equals("info")) {
             root.getChildren().removeAll(root.getChildren());
             Instructions instructions = new Instructions();
-            root.getChildren().addAll();
+            root.getChildren().addAll(instructions.showInfo(), instructions.heading());
         }
     }
+
 }
