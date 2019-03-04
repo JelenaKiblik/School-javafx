@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -66,7 +67,7 @@ public class FlappyHeros extends Application {
         startButton.setOnMouseClicked(event -> {
             try {
                 newGame = false;
-                changePage(PageChange.HEROES);
+                changePage(PageChange.GAME);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -87,7 +88,13 @@ public class FlappyHeros extends Application {
         String name = page.name().toLowerCase();
         if (name.equals("game")) {
             root.getChildren().removeAll(root.getChildren());
-            root.getChildren().addAll();
+            Label game = new Label();
+            root.getChildren().addAll(game);
+            BackgroundImage image = new BackgroundImage(new Image("game/game_background.jpg",800,600,false,true),
+                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                    BackgroundSize.DEFAULT);
+            root.setBackground(new Background(image));
+            game.getStyleClass().add("game");
             newGame();
         }
         if (name.equals("info")) {

@@ -7,12 +7,12 @@ import javafx.scene.text.Font;
 
 
 public class Instructions {
+    
     private Label info = new Label();
     private Label heading = new Label();
+
     private static final int HEADING_X_COORDINATES = 15;
     private static final int HEADING_Y_COORDINATES = 60;
-    private static final int INFO_X_COORDINATES = 15;
-    private static final int INFO_y_COORDINATES = 160;
 
     public Label showInfo() throws IOException {
         info.setText("- Mängu alustades on vaja sisestada nimi ja valida oma hero\n" +
@@ -24,18 +24,6 @@ public class Instructions {
         info.setFont(new Font("Arial", 25));
         info.setTextFill(Color.WHITE);
         return info;
-
-//        File file = new File("game/instructions.txt");
-//        FileInputStream fis = new FileInputStream(file);
-//        byte[] data = new byte[(int) file.length()];
-//        fis.read(data);
-//        fis.close();
-//        String str = new String(data, "UTF-8");
-//        info.setText(str);
-//        info.setTranslateX(INFO_X_COORDINATES);
-//        info.setTranslateY(INFO_y_COORDINATES);
-//        info.getStyleClass().add("instructions");
-//        return info;
     }
 
     public Label heading() {

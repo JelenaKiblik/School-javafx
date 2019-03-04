@@ -44,3 +44,9 @@
     -fx-font-family: Arial Verdana;
 }
 
+
+.game {
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-image: url("game_background.jpg");
+}
+
