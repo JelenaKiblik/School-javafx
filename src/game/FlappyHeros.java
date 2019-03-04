@@ -71,7 +71,7 @@ public class FlappyHeros extends Application {
         startButton.setOnMouseClicked(event -> {
             try {
                 newGame = false;
-                changePage(PageChange.HEROES);
+                changePage(PageChange.GAME);
             } catch (IOException e) {
                 e.printStackTrace();
             }
