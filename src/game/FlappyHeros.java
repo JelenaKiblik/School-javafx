@@ -18,6 +18,10 @@ public class FlappyHeros extends Application {
     private StackPane root = new StackPane();
     private Scene scene = new Scene(root, 800, 600);
     private boolean newGame;
+    private VBox vbButtons;
+    private ImageView imageView;
+    private Instructions instructions = new Instructions();
+    private Button backButtonForInstructions;
 
     public static void main(String[] args) {
         launch(args);
@@ -43,7 +47,12 @@ public class FlappyHeros extends Application {
         Button exit = new Button("Välju");
         exit.getStyleClass().add("buttonDefault");
 
-        VBox vbButtons = new VBox();
+        backButtonForInstructions = new Button("Tagasi");
+        backButtonForInstructions.setTranslateX(170);
+        backButtonForInstructions.setTranslateY(200);
+        backButtonForInstructions.getStyleClass().add("buttonDefault");
+
+        vbButtons = new VBox();
         vbButtons.setSpacing(30);
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
@@ -54,20 +63,15 @@ public class FlappyHeros extends Application {
         root.setBackground(new Background(myBI));
 
         Image image = new Image("game/flappy_logo.png");
-        ImageView imageView = new ImageView(image);
+        imageView = new ImageView(image);
         imageView.setTranslateX(0);
         imageView.setTranslateY(-200);
-
-        root.getChildren().addAll(vbButtons, imageView);
-        primaryStage.setTitle("FlappyHeros");
-        primaryStage.setScene(scene);
-        primaryStage.show();
 
 
         startButton.setOnMouseClicked(event -> {
             try {
                 newGame = false;
-                changePage(PageChange.GAME);
+                changePage(PageChange.HEROES);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -81,11 +85,33 @@ public class FlappyHeros extends Application {
             }
         });
 
+        backButtonForInstructions.setOnMouseClicked(event -> {
+            try {
+                changePage(PageChange.HOMEPAGE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         exit.setOnAction(event -> primaryStage.close());
+
+        root.getChildren().addAll(vbButtons, imageView);
+        primaryStage.setTitle("FlappyHeros");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     private void changePage(PageChange page) throws IOException {
         String name = page.name().toLowerCase();
+
+        if (name.equals("info")) {
+            root.getChildren().removeAll(root.getChildren());
+            root.getChildren().addAll(instructions.showInfo(), instructions.heading(), backButtonForInstructions);
+        }
+        if (name.equals("homepage")) {
+            root.getChildren().removeAll(root.getChildren());
+            root.getChildren().addAll(vbButtons, imageView);
+        }
         if (name.equals("game")) {
             root.getChildren().removeAll(root.getChildren());
             Label game = new Label();
@@ -96,11 +122,7 @@ public class FlappyHeros extends Application {
             root.setBackground(new Background(image));
             game.getStyleClass().add("game");
             newGame();
-        }
-        if (name.equals("info")) {
-            root.getChildren().removeAll(root.getChildren());
-            Instructions instructions = new Instructions();
-            root.getChildren().addAll(instructions.showInfo(), instructions.heading());
+
         }
     }
 
