@@ -1,6 +1,7 @@
 package game;
 
 import game.Instructions.Instructions;
+import game.character.CharacterPage;
 import game.functionality.PageChange;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -13,7 +14,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class FlappyHeros extends Application {
+public class FlappyHeroes extends Application {
 
     private StackPane root = new StackPane();
     private Scene scene = new Scene(root, 800, 600);
@@ -71,7 +72,7 @@ public class FlappyHeros extends Application {
         startButton.setOnMouseClicked(event -> {
             try {
                 newGame = false;
-                changePage(PageChange.GAME);
+                changePage(PageChange.HEROES);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -96,7 +97,7 @@ public class FlappyHeros extends Application {
         exit.setOnAction(event -> primaryStage.close());
 
         root.getChildren().addAll(vbButtons, imageView);
-        primaryStage.setTitle("FlappyHeros");
+        primaryStage.setTitle("FlappyHeroes");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -112,7 +113,8 @@ public class FlappyHeros extends Application {
             root.getChildren().removeAll(root.getChildren());
             root.getChildren().addAll(vbButtons, imageView);
         }
-        if (name.equals("game")) {
+        if (name.equals("heroes")) {
+            CharacterPage characterPage = new CharacterPage();
             root.getChildren().removeAll(root.getChildren());
             Label game = new Label();
             root.getChildren().addAll(game);
@@ -121,7 +123,7 @@ public class FlappyHeros extends Application {
                     BackgroundSize.DEFAULT);
             root.setBackground(new Background(image));
             game.getStyleClass().add("game");
-            newGame();
+            root.getChildren().addAll(characterPage.showHeading(), characterPage.spidermanCharacter(), characterPage.batmanCharacter(), characterPage.supermanCharacter());
 
         }
     }
