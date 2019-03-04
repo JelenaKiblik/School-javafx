@@ -22,7 +22,8 @@ public class FlappyHeroes extends Application {
     private VBox vbButtons;
     private ImageView imageView;
     private Instructions instructions = new Instructions();
-    private Button backButtonForInstructions;
+    private Button backButton;
+    private BackgroundImage myBI;
 
     public static void main(String[] args) {
         launch(args);
@@ -48,17 +49,17 @@ public class FlappyHeroes extends Application {
         Button exit = new Button("Välju");
         exit.getStyleClass().add("buttonDefault");
 
-        backButtonForInstructions = new Button("Tagasi");
-        backButtonForInstructions.setTranslateX(170);
-        backButtonForInstructions.setTranslateY(200);
-        backButtonForInstructions.getStyleClass().add("buttonDefault");
+        backButton = new Button("Tagasi");
+        backButton.setTranslateX(170);
+        backButton.setTranslateY(200);
+        backButton.getStyleClass().add("buttonDefault");
 
         vbButtons = new VBox();
         vbButtons.setSpacing(30);
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
 
-        BackgroundImage myBI = new BackgroundImage(new Image("game/super_hero.jpg",800,600,false,true),
+        myBI = new BackgroundImage(new Image("game/super_hero.jpg",800,600,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         root.setBackground(new Background(myBI));
@@ -86,9 +87,25 @@ public class FlappyHeroes extends Application {
             }
         });
 
-        backButtonForInstructions.setOnMouseClicked(event -> {
+        backButton.setOnMouseClicked(event -> {
             try {
                 changePage(PageChange.HOMEPAGE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        settings.setOnMouseClicked(event -> {
+            try {
+                changePage(PageChange.SETTINGS);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        scoreBoard.setOnMouseClicked(event -> {
+            try {
+                changePage(PageChange.SCORE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,10 +124,11 @@ public class FlappyHeroes extends Application {
 
         if (name.equals("info")) {
             root.getChildren().removeAll(root.getChildren());
-            root.getChildren().addAll(instructions.showInfo(), instructions.heading(), backButtonForInstructions);
+            root.getChildren().addAll(instructions.showInfo(), instructions.heading(), backButton);
         }
         if (name.equals("homepage")) {
             root.getChildren().removeAll(root.getChildren());
+            root.setBackground(new Background(myBI));
             root.getChildren().addAll(vbButtons, imageView);
         }
         if (name.equals("heroes")) {
@@ -123,8 +141,16 @@ public class FlappyHeroes extends Application {
                     BackgroundSize.DEFAULT);
             root.setBackground(new Background(image));
             game.getStyleClass().add("game");
-            root.getChildren().addAll(characterPage.showHeading(), characterPage.spidermanCharacter(), characterPage.batmanCharacter(), characterPage.supermanCharacter());
+            root.getChildren().addAll(characterPage.showHeading(), characterPage.spidermanCharacter(), characterPage.batmanCharacter(), characterPage.supermanCharacter(), backButton);
 
+        }
+        if (name.equals("settings")) {
+            root.getChildren().removeAll(root.getChildren());
+            root.getChildren().addAll(backButton);
+        }
+        if (name.equals("score")) {
+            root.getChildren().removeAll(root.getChildren());
+            root.getChildren().addAll(backButton);
         }
     }
 
