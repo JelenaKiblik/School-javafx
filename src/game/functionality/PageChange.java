@@ -1,5 +1,5 @@
 package game.functionality;
 
 public enum PageChange {
-    INFO, GAME, GAMEOVER, HEROES, SCORE
+    INFO, GAME, GAMEOVER, HEROES, SCORE, HOMEPAGE
 }
