@@ -85,12 +85,19 @@ public class FlappyHeros extends Application {
 
     private void changePage(PageChange page) throws IOException {
         String name = page.name().toLowerCase();
-
+        if (name.equals("game")) {
+            root.getChildren().removeAll(root.getChildren());
+            root.getChildren().addAll();
+            newGame();
+        }
         if (name.equals("info")) {
             root.getChildren().removeAll(root.getChildren());
             Instructions instructions = new Instructions();
             root.getChildren().addAll(instructions.showInfo(), instructions.heading());
         }
+    }
+
+    private void newGame() {
     }
 
 }
