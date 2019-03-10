@@ -21,8 +21,9 @@ public class Instructions {
                 "- Mäng läbi kui hero kukkub\n");
         info.setTranslateX(15);
         info.setTranslateY(0);
-        info.setFont(new Font("Arial", 25));
-        info.setTextFill(Color.WHITE);
+        //info.setFont(new Font("Arial", 25));
+        //info.setTextFill(Color.WHITE);
+        info.getStyleClass().add("instructionsBorder");
         return info;
 
 //        File file = new File("game/instructions.txt");
@@ -42,9 +43,8 @@ public class Instructions {
         heading.setText("Juhend");
         heading.setTranslateX(HEADING_X_COORDINATES);
         heading.setTranslateY(HEADING_Y_COORDINATES);
-        heading.getStyleClass().add("instructionsHeading");
+        heading.getStyleClass().add("instructionsBorder");
         heading.setTextFill(Color.WHITE);
         return heading;
     }
 }
-
