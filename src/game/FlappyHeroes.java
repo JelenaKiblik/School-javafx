@@ -134,10 +134,10 @@ public class FlappyHeroes extends Application {
             root.setBackground(new Background(image));
             character.getCharacterOptions().setTranslateX(50);
             character.getCharacterOptions().setTranslateY(140);
-            getPlayerName.setTranslateY(400);
-            getPlayerName.setTranslateX(200);
-            insertName.setTranslateX(100);
-            insertName.setTranslateY(400);
+            getPlayerName.setTranslateY(15);
+            getPlayerName.setTranslateX(0);
+            insertName.setTranslateX(30);
+            insertName.setTranslateY(0);
             insertName.getStyleClass().add("playerName");
             root.getChildren().addAll(character.showHeading(), character.getCharacterOptions(), getPlayerName, insertName, backButton);
             chooseACharacter();
