@@ -46,7 +46,7 @@
 
 .game {
     -fx-background-color: rgb(255, 255, 255);
-    -fx-background-image: url("game_background.jpg");
+    -fx-background-image: url("resources/game_background.jpg");
 }
 
 .instructionsBorder {
@@ -74,3 +74,11 @@
     -fx-background-radius: 30;
     -fx-text-fill: red;
 }
+
+.playerName {
+    -fx-font-size: 14 px;
+    -fx-text-fill: rgba(0,0,0);
+    -fx-font-family: Arial Verdana;
+    -fx-font-weight: bold;
+}
+

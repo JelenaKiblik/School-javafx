@@ -1,9 +1,8 @@
-package game.Instructions;
+package game.instructions;
 
 import javafx.scene.control.Label;
 import java.io.IOException;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 
 public class Instructions {
@@ -11,8 +10,6 @@ public class Instructions {
     private Label heading = new Label();
     private static final int HEADING_X_COORDINATES = 15;
     private static final int HEADING_Y_COORDINATES = -100;
-    private static final int INFO_X_COORDINATES = 15;
-    private static final int INFO_y_COORDINATES = 160;
 
     public Label showInfo() throws IOException {
         info.setText("- Mängu alustades on vaja sisestada nimi ja valida oma hero\n" +
@@ -26,7 +23,7 @@ public class Instructions {
         info.getStyleClass().add("instructionsBorder");
         return info;
 
-//        File file = new File("game/instructions.txt");
+//        File file = new File("game/Instructions.txt");
 //        FileInputStream fis = new FileInputStream(file);
 //        byte[] data = new byte[(int) file.length()];
 //        fis.read(data);

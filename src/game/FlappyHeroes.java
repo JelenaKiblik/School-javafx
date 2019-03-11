@@ -1,13 +1,15 @@
 package game;
 
-import game.Instructions.Instructions;
-import game.character.CharacterPage;
+import game.instructions.Instructions;
+import game.functionality.NameError;
 import game.functionality.PageChange;
+import game.character.Character;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -18,12 +20,17 @@ public class FlappyHeroes extends Application {
 
     private StackPane root = new StackPane();
     private Scene scene = new Scene(root, 800, 600);
-    private boolean newGame;
     private VBox vbButtons;
     private ImageView imageView;
     private Instructions instructions = new Instructions();
     private Button backButton;
     private BackgroundImage myBI;
+    private Label insertName = new Label("Sisesta nimi:");
+    private String playerName;
+    private TextField getPlayerName = new TextField();
+    private Character character = new Character();
+    private boolean newGame;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -32,7 +39,7 @@ public class FlappyHeroes extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        root.getStylesheets().add("game/stylesheet.css");
+        root.getStylesheets().add("stylesheet.css");
 
         Button startButton = new Button("Alusta");
         startButton.getStyleClass().add("buttonDefault");
@@ -59,12 +66,12 @@ public class FlappyHeroes extends Application {
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
 
-        myBI = new BackgroundImage(new Image("game/super_hero.jpg",800,600,false,true),
+        myBI = new BackgroundImage(new Image("super_hero.jpg",800,600,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         root.setBackground(new Background(myBI));
 
-        Image image = new Image("game/flappy_logo.png");
+        Image image = new Image("flappy_logo.png");
         imageView = new ImageView(image);
         imageView.setTranslateX(0);
         imageView.setTranslateY(-200);
@@ -87,14 +94,6 @@ public class FlappyHeroes extends Application {
             }
         });
 
-        backButton.setOnMouseClicked(event -> {
-            try {
-                changePage(PageChange.HOMEPAGE);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
         settings.setOnMouseClicked(event -> {
             try {
                 changePage(PageChange.SETTINGS);
@@ -111,38 +110,53 @@ public class FlappyHeroes extends Application {
             }
         });
 
+        backButton.setOnMouseClicked(event -> {
+            try {
+                changePage(PageChange.HOMEPAGE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         exit.setOnAction(event -> primaryStage.close());
 
         root.getChildren().addAll(vbButtons, imageView);
-        primaryStage.setTitle("FlappyHeroes");
+        primaryStage.setTitle("game.FlappyHeroes");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     private void changePage(PageChange page) throws IOException {
         String name = page.name().toLowerCase();
-
+        if (name.equals("heroes")) {
+            root.getChildren().removeAll(root.getChildren());
+            BackgroundImage image = new BackgroundImage(new Image("game_background.jpg",800,600, false,true), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            root.setBackground(new Background(image));
+            character.getCharacterOptions().setTranslateX(50);
+            character.getCharacterOptions().setTranslateY(140);
+            getPlayerName.setTranslateY(400);
+            getPlayerName.setTranslateX(200);
+            insertName.setTranslateX(100);
+            insertName.setTranslateY(400);
+            insertName.getStyleClass().add("playerName");
+            root.getChildren().addAll(character.showHeading(), character.getCharacterOptions(), getPlayerName, insertName, backButton);
+            chooseACharacter();
+        }
+        if (name.equals("game")) {
+            if (playerName.isEmpty()) {
+                NameError.noNameInsertedError();
+            } else if (getPlayerName.getLength() > 20) {
+                NameError.nameTooLongError();
+            } else {
+                root.getChildren().removeAll(root.getChildren());
+                root.getChildren().addAll(character.getChosenCharacter()
+                );
+                newGame();
+            }
+        }
         if (name.equals("info")) {
             root.getChildren().removeAll(root.getChildren());
             root.getChildren().addAll(instructions.showInfo(), instructions.heading(), backButton);
-        }
-        if (name.equals("homepage")) {
-            root.getChildren().removeAll(root.getChildren());
-            root.setBackground(new Background(myBI));
-            root.getChildren().addAll(vbButtons, imageView);
-        }
-        if (name.equals("heroes")) {
-            CharacterPage characterPage = new CharacterPage();
-            root.getChildren().removeAll(root.getChildren());
-            Label game = new Label();
-            root.getChildren().addAll(game);
-            BackgroundImage image = new BackgroundImage(new Image("game/game_background.jpg",800,600,false,true),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT);
-            root.setBackground(new Background(image));
-            game.getStyleClass().add("game");
-            root.getChildren().addAll(characterPage.showHeading(), characterPage.spidermanCharacter(), characterPage.batmanCharacter(), characterPage.supermanCharacter(), backButton);
-
         }
         if (name.equals("settings")) {
             root.getChildren().removeAll(root.getChildren());
@@ -152,9 +166,62 @@ public class FlappyHeroes extends Application {
             root.getChildren().removeAll(root.getChildren());
             root.getChildren().addAll(backButton);
         }
+        if (name.equals("homepage")) {
+            root.getChildren().removeAll(root.getChildren());
+            root.setBackground(new Background(myBI));
+            root.getChildren().addAll(vbButtons, imageView);
+        }
+    }
+
+    private void chooseACharacter() {
+        character.getBatmanCharacterPicked().setOnMouseEntered(event ->
+                character.getBatmanCharacterPicked().setImage(character.getBatman()));
+        character.getBatmanCharacterPicked().setOnMouseExited(event ->
+                character.getBatmanCharacterPicked().setImage(character.getBatman()));
+
+        character.getSupermanCharacterPicked().setOnMouseEntered(event ->
+                character.getSupermanCharacterPicked().setImage(character.getSuperman()));
+        character.getSupermanCharacterPicked().setOnMouseExited(event ->
+                character.getSupermanCharacterPicked().setImage(character.getSuperman()));
+
+        character.getSpidermanCharacterPicked().setOnMouseEntered(event ->
+                character.getSpidermanCharacterPicked().setImage(character.getSpiderman()));
+        character.getSpidermanCharacterPicked().setOnMouseExited(event ->
+                character.getSpidermanCharacterPicked().setImage(character.getSpiderman()));
+
+        character.getSupermanCharacterPicked().setOnMouseClicked(event -> {
+            character.getChosenCharacter().setImage(character.getSupermanCharacterChosen());
+            playerName = getPlayerName.getText();
+            try {
+                changePage(PageChange.GAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        character.getBatmanCharacterPicked().setOnMouseClicked(event -> {
+            character.getChosenCharacter().setImage(character.getBatmanCharacterChosen());
+            playerName = getPlayerName.getText();
+            try {
+                changePage(PageChange.GAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        character.getSpidermanCharacterPicked().setOnMouseClicked(event -> {
+            character.getChosenCharacter().setImage(character.getSpidermanCharacterChosen());
+            playerName = getPlayerName.getText();
+            try {
+                changePage(PageChange.GAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void newGame() {
+        character.getChosenCharacter().setTranslateX(100);
+        character.getChosenCharacter().setTranslateY(250);
     }
-
 }
