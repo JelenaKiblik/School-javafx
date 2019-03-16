@@ -1,9 +1,13 @@
 package game;
 
+import game.elements.Pipes;
+import game.functionality.Collision;
+import game.functionality.CountDown;
 import game.instructions.Instructions;
 import game.functionality.NameError;
 import game.functionality.PageChange;
 import game.character.Character;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -30,6 +34,9 @@ public class FlappyHeroes extends Application {
     private TextField getPlayerName = new TextField();
     private Character character = new Character();
     private boolean newGame;
+    private CountDown countDown = new CountDown();
+    private Collision collision = new Collision();
+    private Pipes pipes = new Pipes();
 
 
     public static void main(String[] args) {
@@ -134,10 +141,11 @@ public class FlappyHeroes extends Application {
             root.setBackground(new Background(image));
             character.getCharacterOptions().setTranslateX(50);
             character.getCharacterOptions().setTranslateY(140);
-            getPlayerName.setTranslateY(15);
             getPlayerName.setTranslateX(0);
-            insertName.setTranslateX(30);
-            insertName.setTranslateY(0);
+            getPlayerName.setTranslateY(70);
+            getPlayerName.getStyleClass().add("getPlayerName");
+            insertName.setTranslateX(0);
+            insertName.setTranslateY(50);
             insertName.getStyleClass().add("playerName");
             root.getChildren().addAll(character.showHeading(), character.getCharacterOptions(), getPlayerName, insertName, backButton);
             chooseACharacter();
@@ -223,5 +231,37 @@ public class FlappyHeroes extends Application {
     private void newGame() {
         character.getChosenCharacter().setTranslateX(10);
         character.getChosenCharacter().setTranslateY(20);
+        startNewGame.start();
     }
+
+    private AnimationTimer startNewGame = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            if (countDown.isFinished()) {
+                heroMoving();
+            }
+        }
+    };
+
+    private void heroMoving() {
+        newGame = true;
+        startNewGame.stop();
+    }
+
+    private AnimationTimer actionTimer = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            if (pipes.isGameOver()) {
+                try {
+                    actionTimer.stop();
+                    changePage(PageChange.GAMEOVER);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            collision.collide();
+        }
+    };
+
+
 }

@@ -75,10 +75,29 @@
     -fx-text-fill: red;
 }
 
-.playerName {
-    -fx-font-size: 14 px;
-    -fx-text-fill: rgba(0,0,0);
+.getPlayerName {
+    -fx-background-color: rgb(128, 0, 0.6);
+    -fx-border-color: rgb(0, 0, 0);
     -fx-font-family: Arial Verdana;
     -fx-font-weight: bold;
+    -fx-font-color: rgb(230, 0, 0);
+    -fx-font-size: 15 px;
+    -fx-border-width: 5;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-text-fill: red;
+}
+
+.playerName {
+    -fx-background-color: rgb(128, 0, 0.6);
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-font-family: Arial Verdana;
+    -fx-font-weight: bold;
+    -fx-font-color: rgb(230, 0, 0);
+    -fx-font-size: 20 px;
+    -fx-border-width: 5;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-text-fill: red;
 }
 
