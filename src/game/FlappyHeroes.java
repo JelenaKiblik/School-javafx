@@ -221,7 +221,7 @@ public class FlappyHeroes extends Application {
     }
 
     private void newGame() {
-        character.getChosenCharacter().setTranslateX(100);
-        character.getChosenCharacter().setTranslateY(250);
+        character.getChosenCharacter().setTranslateX(10);
+        character.getChosenCharacter().setTranslateY(20);
     }
 }
