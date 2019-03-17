@@ -7,6 +7,7 @@ import game.instructions.Instructions;
 import game.functionality.NameError;
 import game.functionality.PageChange;
 import game.character.Character;
+import game.music.Music;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -37,6 +38,7 @@ public class FlappyHeroes extends Application {
     private CountDown countDown = new CountDown();
     private Collision collision = new Collision();
     private Pipes pipes = new Pipes();
+    private Music music = new Music();
 
 
     public static void main(String[] args) {
@@ -46,7 +48,7 @@ public class FlappyHeroes extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        root.getStylesheets().add("stylesheet.css");
+        root.getStylesheets().add("resources/stylesheet.css");
 
         Button startButton = new Button("Alusta");
         startButton.getStyleClass().add("buttonDefault");
@@ -73,12 +75,12 @@ public class FlappyHeroes extends Application {
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
 
-        myBI = new BackgroundImage(new Image("super_hero.jpg",800,600,false,true),
+        myBI = new BackgroundImage(new Image("resources/super_hero.jpg",800,600,false,true),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         root.setBackground(new Background(myBI));
 
-        Image image = new Image("flappy_logo.png");
+        Image image = new Image("resources/flappy_logo.png");
         imageView = new ImageView(image);
         imageView.setTranslateX(0);
         imageView.setTranslateY(-200);
@@ -127,6 +129,7 @@ public class FlappyHeroes extends Application {
 
         exit.setOnAction(event -> primaryStage.close());
 
+        music.musicStartsOrStops();
         root.getChildren().addAll(vbButtons, imageView);
         primaryStage.setTitle("game.FlappyHeroes");
         primaryStage.setScene(scene);
@@ -137,12 +140,12 @@ public class FlappyHeroes extends Application {
         String name = page.name().toLowerCase();
         if (name.equals("heroes")) {
             root.getChildren().removeAll(root.getChildren());
-            BackgroundImage image = new BackgroundImage(new Image("game_background.jpg",800,600, false,true), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            BackgroundImage image = new BackgroundImage(new Image("resources/game_background.jpg",800,600, false,true), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
             root.setBackground(new Background(image));
-            character.getCharacterOptions().setTranslateX(50);
+            character.getCharacterOptions().setTranslateX(110);
             character.getCharacterOptions().setTranslateY(140);
             getPlayerName.setTranslateX(0);
-            getPlayerName.setTranslateY(70);
+            getPlayerName.setTranslateY(90);
             getPlayerName.getStyleClass().add("getPlayerName");
             insertName.setTranslateX(0);
             insertName.setTranslateY(50);
@@ -168,7 +171,7 @@ public class FlappyHeroes extends Application {
         }
         if (name.equals("settings")) {
             root.getChildren().removeAll(root.getChildren());
-            root.getChildren().addAll(backButton);
+            root.getChildren().addAll(backButton, music.musicImage());
         }
         if (name.equals("score")) {
             root.getChildren().removeAll(root.getChildren());
