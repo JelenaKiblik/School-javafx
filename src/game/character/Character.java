@@ -34,7 +34,7 @@ public class Character {
         heading.setTranslateX(15);
         heading.setTranslateY(-200);
         heading.setFont(new Font("Arial", 50));
-        heading.setTextFill(Color.WHITE);
+        heading.getStyleClass().add("headingBorder");
         return heading;
     }
 

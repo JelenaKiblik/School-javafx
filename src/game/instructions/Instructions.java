@@ -40,7 +40,7 @@ public class Instructions {
         heading.setText("Juhend");
         heading.setTranslateX(HEADING_X_COORDINATES);
         heading.setTranslateY(HEADING_Y_COORDINATES);
-        heading.getStyleClass().add("instructionsBorder");
+        heading.getStyleClass().add("headingBorder");
         heading.setTextFill(Color.WHITE);
         return heading;
     }
