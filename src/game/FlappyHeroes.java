@@ -41,7 +41,6 @@ public class FlappyHeroes extends Application {
     private Music music = new Music();
     private double characterY;
     private static final int CHARACTER_MOVING_UP_SPEED = 2;
-    private static final int CHARACTER_HEIGHT = 40;
     private static final int BRING_CHARACTER_DOWN_HEIGHT = 40;
     private Button playAgain = new Button("Again?");
 
@@ -51,7 +50,7 @@ public class FlappyHeroes extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         root.getStylesheets().add("resources/stylesheet.css");
 
@@ -307,5 +306,4 @@ public class FlappyHeroes extends Application {
             collision.collide(character.getChosenCharacter());
         }
     };
-
 }
