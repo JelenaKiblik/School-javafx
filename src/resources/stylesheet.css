@@ -101,3 +101,35 @@
     -fx-text-fill: red;
 }
 
+.playAgain {
+    -fx-background-color: rgb(128, 0, 0.6);
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-font-family: Arial Verdana;
+    -fx-font-weight: bold;
+    -fx-font-color: rgb(230, 0, 0);
+    -fx-font-size: 20 px;
+    -fx-border-width: 5;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-text-fill: red;
+}
+
+.labelGameOver {
+    -fx-background-color: rgb(128, 0, 0.6);
+    -fx-border-color: rgb(0, 0, 0);
+    -fx-font-family: Arial Verdana;
+    -fx-font-weight: bold;
+    -fx-font-color: rgb(230, 0, 0);
+    -fx-font-size: 30 px;
+    -fx-border-width: 5;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-text-fill: red;
+}
+
+.labelCountDown {
+    -fx-font-size: 90 px;
+    -fx-text-fill: rgba(0,0,0,0);
+    -fx-font-family: Arial Verdana;
+    -fx-font-weight: bold;
+}

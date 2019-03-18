@@ -11,6 +11,5 @@ public class Pipes {
         this.gameOver = gameOver;
     }
 
-
 }
 

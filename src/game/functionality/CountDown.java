@@ -2,14 +2,14 @@ package game.functionality;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class CountDown {
 
     private Label countDown = new Label();
-    private int countNr = 3;
+    private int countNr = 2;
     private boolean finished;
     private static final int COUNTDOWN_Y_COORDINATES = 300;
     private static final int COUNTDOWN_X_COORDINATES = 300;
@@ -18,7 +18,7 @@ public class CountDown {
     private static final int COUNTDOWN_ZERO_DURATION = 3000;
     private static final int COUNTDOWN_DECREASE = 2;
 
-    public void countdown(Group root) {
+    public void countdown(StackPane root) {
         finished = false;
         Timeline countDownThreeTwo = new Timeline();
         Timeline countDownOne = new Timeline();

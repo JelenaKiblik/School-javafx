@@ -39,6 +39,11 @@ public class FlappyHeroes extends Application {
     private Collision collision = new Collision();
     private Pipes pipes = new Pipes();
     private Music music = new Music();
+    private double characterY;
+    private static final int CHARACTER_MOVING_UP_SPEED = 2;
+    private static final int CHARACTER_HEIGHT = 40;
+    private static final int BRING_CHARACTER_DOWN_HEIGHT = 40;
+    private Button playAgain = new Button("Again?");
 
 
     public static void main(String[] args) {
@@ -182,7 +187,21 @@ public class FlappyHeroes extends Application {
             root.setBackground(new Background(myBI));
             root.getChildren().addAll(vbButtons, imageView);
         }
-    }
+        if (name.equals("gameover")) {
+            newGame = false;
+            actionTimer.stop();
+            characterMovingUp.stop();
+            root.getChildren().removeAll(character.getChosenCharacter());
+            Label gameOverText = new Label("GAME OVER");
+            gameOverText.setTranslateX(0);
+            gameOverText.setTranslateY(-90);
+            gameOverText.getStyleClass().add("labelGameOver");
+            if (!root.getChildren().contains(playAgain)) {
+                root.getChildren().addAll(gameOverText, playAgain, backButton);
+                playAgain.getStyleClass().add("playAgain");
+            }
+        }
+}
 
     private void chooseACharacter() {
         character.getBatmanCharacterPicked().setOnMouseEntered(event ->
@@ -234,8 +253,16 @@ public class FlappyHeroes extends Application {
     private void newGame() {
         character.getChosenCharacter().setTranslateX(10);
         character.getChosenCharacter().setTranslateY(20);
+        countDown.countdown(root);
+        pipes.setGameOver(false);
         startNewGame.start();
     }
+
+    private void bringDown() {
+        characterY = character.getChosenCharacter().getTranslateY() - BRING_CHARACTER_DOWN_HEIGHT;
+        character.getChosenCharacter().setTranslateY(characterY);
+    }
+
 
     private AnimationTimer startNewGame = new AnimationTimer() {
         @Override
@@ -246,9 +273,24 @@ public class FlappyHeroes extends Application {
         }
     };
 
+    private AnimationTimer characterMovingUp = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            characterY = character.getChosenCharacter().getTranslateY() + CHARACTER_MOVING_UP_SPEED;
+            character.getChosenCharacter().setTranslateY(characterY);
+        }
+    };
+
     private void heroMoving() {
         newGame = true;
         startNewGame.stop();
+        characterMovingUp.start();
+        root.setOnMouseClicked(event -> {
+            if (newGame) {
+                bringDown();
+                actionTimer.start();
+            }
+        });
     }
 
     private AnimationTimer actionTimer = new AnimationTimer() {
@@ -262,9 +304,8 @@ public class FlappyHeroes extends Application {
                     e.printStackTrace();
                 }
             }
-            collision.collide();
+            collision.collide(character.getChosenCharacter());
         }
     };
-
 
 }
