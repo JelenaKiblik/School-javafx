@@ -8,8 +8,10 @@ import game.functionality.NameError;
 import game.functionality.PageChange;
 import game.character.Character;
 import game.music.Music;
-import javafx.animation.AnimationTimer;
+import game.scoreboard.Scoreboard;
+import javafx.animation.*;
 import javafx.application.Application;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +20,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import java.io.IOException;
 
 public class FlappyHeroes extends Application {
@@ -43,7 +49,7 @@ public class FlappyHeroes extends Application {
     private static final int CHARACTER_MOVING_UP_SPEED = 2;
     private static final int BRING_CHARACTER_DOWN_HEIGHT = 40;
     private Button playAgain = new Button("Again?");
-
+    private Scoreboard scoreboard = new Scoreboard();
 
     public static void main(String[] args) {
         launch(args);
@@ -88,7 +94,6 @@ public class FlappyHeroes extends Application {
         imageView = new ImageView(image);
         imageView.setTranslateX(0);
         imageView.setTranslateY(-200);
-
 
         startButton.setOnMouseClicked(event -> {
             try {
@@ -138,6 +143,7 @@ public class FlappyHeroes extends Application {
         primaryStage.setTitle("game.FlappyHeroes");
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     private void changePage(PageChange page) throws IOException {
@@ -158,6 +164,7 @@ public class FlappyHeroes extends Application {
             chooseACharacter();
         }
         if (name.equals("game")) {
+            scoreboard.writeScoresToFile(playerName);
             if (playerName.isEmpty()) {
                 NameError.noNameInsertedError();
             } else if (getPlayerName.getLength() > 20) {
@@ -179,6 +186,7 @@ public class FlappyHeroes extends Application {
         }
         if (name.equals("score")) {
             root.getChildren().removeAll(root.getChildren());
+            scoreboard.readScores(root);
             root.getChildren().addAll(backButton);
         }
         if (name.equals("homepage")) {
@@ -250,8 +258,10 @@ public class FlappyHeroes extends Application {
     }
 
     private void newGame() {
-        character.getChosenCharacter().setTranslateX(10);
+        character.getChosenCharacter().setTranslateX(-230);
         character.getChosenCharacter().setTranslateY(20);
+        character.getChosenCharacter().setFitWidth(100);
+        character.getChosenCharacter().setFitHeight(100);
         countDown.countdown(root);
         pipes.setGameOver(false);
         startNewGame.start();
@@ -306,4 +316,5 @@ public class FlappyHeroes extends Application {
             collision.collide(character.getChosenCharacter());
         }
     };
+
 }
