@@ -28,7 +28,7 @@ public class Scoreboard {
         }
     }
 
-    public void readScores(StackPane scores) throws IOException {
+    public void readScores(Group scores) throws IOException {
         File file = new File("C:\\Users\\Annika\\IdeaProjects\\iti0202-2019-gui\\scores.txt");
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -36,9 +36,9 @@ public class Scoreboard {
             int sum = 0;
             while ((l = br.readLine()) != null) {
                     Label playerName = new Label();
-                    playerName.setTranslateX(0);
+                    playerName.setTranslateX(500);
                     playerName.setTranslateY(sum);
-                    sum += 70;
+                    sum += 10;
                     playerName.setText(l);
                     playerName.getStyleClass().add("instructionsBorder");
                     scores.getChildren().addAll(playerName);

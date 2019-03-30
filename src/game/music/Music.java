@@ -17,8 +17,8 @@ public class Music {
 
 
     public ImageView musicImage() {
-        musicOnOrOff.setX(500);
-        musicOnOrOff.setY(20);
+        musicOnOrOff.setX(370);
+        musicOnOrOff.setY(300);
         musicOnOrOff.setFitHeight(50);
         musicOnOrOff.setFitWidth(50);
         return musicOnOrOff;

@@ -30,8 +30,8 @@ public class Character {
 
     public Label showHeading() {
         heading.setText("Vali karakter");
-        heading.setTranslateX(15);
-        heading.setTranslateY(-200);
+        heading.setTranslateX(270);
+        heading.setTranslateY(50);
         heading.setFont(new Font("Arial", 50));
         heading.getStyleClass().add("headingBorder");
         return heading;

@@ -11,8 +11,8 @@ import game.music.Music;
 import game.scoreboard.Scoreboard;
 import javafx.animation.*;
 import javafx.application.Application;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,16 +20,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 
 public class FlappyHeroes extends Application {
 
-    private StackPane root = new StackPane();
+    private Group root = new Group();
     private Scene scene = new Scene(root, 800, 600);
     private VBox vbButtons;
     private ImageView imageView;
@@ -50,6 +47,10 @@ public class FlappyHeroes extends Application {
     private static final int BRING_CHARACTER_DOWN_HEIGHT = 40;
     private Button playAgain = new Button("Again?");
     private Scoreboard scoreboard = new Scoreboard();
+    private Image sceneBackground = new Image("resources/super_hero.jpg");
+    private ImageView background = new ImageView(sceneBackground);
+    private Image gameImage = new Image("resources/game_background.jpg");
+    private ImageView gameplayImage = new ImageView(gameImage);
 
     public static void main(String[] args) {
         launch(args);
@@ -76,8 +77,8 @@ public class FlappyHeroes extends Application {
         exit.getStyleClass().add("buttonDefault");
 
         backButton = new Button("Tagasi");
-        backButton.setTranslateX(170);
-        backButton.setTranslateY(200);
+        backButton.setTranslateX(570);
+        backButton.setTranslateY(500);
         backButton.getStyleClass().add("buttonDefault");
 
         vbButtons = new VBox();
@@ -85,15 +86,11 @@ public class FlappyHeroes extends Application {
         vbButtons.setPadding(new Insets(200, 0, 0, 350));
         vbButtons.getChildren().addAll(startButton, instructions, settings, scoreBoard ,exit);
 
-        myBI = new BackgroundImage(new Image("resources/super_hero.jpg",800,600,false,true),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        root.setBackground(new Background(myBI));
 
         Image image = new Image("resources/flappy_logo.png");
         imageView = new ImageView(image);
-        imageView.setTranslateX(0);
-        imageView.setTranslateY(-200);
+        imageView.setTranslateX(-15);
+        imageView.setTranslateY(10);
 
         startButton.setOnMouseClicked(event -> {
             try {
@@ -139,7 +136,9 @@ public class FlappyHeroes extends Application {
         exit.setOnAction(event -> primaryStage.close());
 
         music.musicStartsOrStops();
-        root.getChildren().addAll(vbButtons, imageView);
+        background.setFitWidth(800);
+        background.setFitHeight(600);
+        root.getChildren().addAll(background, vbButtons, imageView);
         primaryStage.setTitle("game.FlappyHeroes");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -150,49 +149,51 @@ public class FlappyHeroes extends Application {
         String name = page.name().toLowerCase();
         if (name.equals("heroes")) {
             root.getChildren().removeAll(root.getChildren());
-            BackgroundImage image = new BackgroundImage(new Image("resources/game_background.jpg",800,600, false,true), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-            root.setBackground(new Background(image));
             character.getCharacterOptions().setTranslateX(110);
             character.getCharacterOptions().setTranslateY(140);
-            getPlayerName.setTranslateX(0);
-            getPlayerName.setTranslateY(90);
+            getPlayerName.setTranslateX(290);
+            getPlayerName.setTranslateY(370);
             getPlayerName.getStyleClass().add("getPlayerName");
-            insertName.setTranslateX(0);
-            insertName.setTranslateY(50);
+            insertName.setTranslateX(300);
+            insertName.setTranslateY(330);
             insertName.getStyleClass().add("playerName");
-            root.getChildren().addAll(character.showHeading(), character.getCharacterOptions(), getPlayerName, insertName, backButton);
+            gameplayImage.setFitHeight(600);
+            gameplayImage.setFitWidth(800);
+            root.getChildren().addAll(gameplayImage, character.showHeading(), character.getCharacterOptions(), getPlayerName, insertName, backButton);
             chooseACharacter();
         }
         if (name.equals("game")) {
             scoreboard.writeScoresToFile(playerName);
+            gameplayImage.setFitHeight(600);
+            gameplayImage.setFitWidth(800);
             if (playerName.isEmpty()) {
                 NameError.noNameInsertedError();
             } else if (getPlayerName.getLength() > 20) {
                 NameError.nameTooLongError();
             } else {
                 root.getChildren().removeAll(root.getChildren());
-                root.getChildren().addAll(character.getChosenCharacter()
+                root.getChildren().addAll(gameplayImage, character.getChosenCharacter(), pipes.makeFirstPipe(), pipes.makeSecondPipe(),
+                        pipes.makeThirdPipe(), pipes.makeFourthPipe()
                 );
                 newGame();
             }
         }
         if (name.equals("info")) {
             root.getChildren().removeAll(root.getChildren());
-            root.getChildren().addAll(instructions.showInfo(), instructions.heading(), backButton);
+            root.getChildren().addAll(background, instructions.showInfo(), instructions.heading(), backButton);
         }
         if (name.equals("settings")) {
             root.getChildren().removeAll(root.getChildren());
-            root.getChildren().addAll(backButton, music.musicImage());
+            root.getChildren().addAll(background, backButton, music.musicImage());
         }
         if (name.equals("score")) {
             root.getChildren().removeAll(root.getChildren());
             scoreboard.readScores(root);
-            root.getChildren().addAll(backButton);
+            root.getChildren().addAll(background, backButton);
         }
         if (name.equals("homepage")) {
             root.getChildren().removeAll(root.getChildren());
-            root.setBackground(new Background(myBI));
-            root.getChildren().addAll(vbButtons, imageView);
+            root.getChildren().addAll(background, vbButtons, imageView);
         }
         if (name.equals("gameover")) {
             newGame = false;
@@ -258,12 +259,13 @@ public class FlappyHeroes extends Application {
     }
 
     private void newGame() {
-        character.getChosenCharacter().setTranslateX(-230);
-        character.getChosenCharacter().setTranslateY(20);
+        character.getChosenCharacter().setTranslateX(150);
+        character.getChosenCharacter().setTranslateY(250);
         character.getChosenCharacter().setFitWidth(100);
         character.getChosenCharacter().setFitHeight(100);
         countDown.countdown(root);
         pipes.setGameOver(false);
+        pipes.startPipes(root);
         startNewGame.start();
     }
 
@@ -294,6 +296,7 @@ public class FlappyHeroes extends Application {
         newGame = true;
         startNewGame.stop();
         characterMovingUp.start();
+        pipes.gameOverTouchedPipe(character.getChosenCharacter(), characterMovingUp);
         root.setOnMouseClicked(event -> {
             if (newGame) {
                 bringDown();
@@ -305,10 +308,10 @@ public class FlappyHeroes extends Application {
     private AnimationTimer actionTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
-            if (pipes.isGameOver()) {
+            if (character.getChosenCharacter().getTranslateY() + 100 >= 800
+                    || character.getChosenCharacter().getTranslateY() <= 100) {
                 try {
-                    actionTimer.stop();
-                    changePage(PageChange.GAMEOVER);
+                    pipes.gameOverOutOfScreen(characterMovingUp);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -8,16 +8,16 @@ import javafx.scene.paint.Color;
 public class Instructions {
     private Label info = new Label();
     private Label heading = new Label();
-    private static final int HEADING_X_COORDINATES = 15;
-    private static final int HEADING_Y_COORDINATES = -100;
+    private static final int HEADING_X_COORDINATES = 300;
+    private static final int HEADING_Y_COORDINATES = 150;
 
     public Label showInfo() throws IOException {
         info.setText("- Mängu alustades on vaja sisestada nimi ja valida oma hero\n" +
                 "- Hero liigutamiseks on vaja vajutada ekraanile\n" +
                 "- Mäng läbi kui hero puudutab takistus\n" +
                 "- Mäng läbi kui hero kukkub\n");
-        info.setTranslateX(15);
-        info.setTranslateY(0);
+        info.setTranslateX(80);
+        info.setTranslateY(250);
         //info.setFont(new Font("Arial", 25));
         //info.setTextFill(Color.WHITE);
         info.getStyleClass().add("instructionsBorder");
