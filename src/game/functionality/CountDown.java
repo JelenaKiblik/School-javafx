@@ -2,8 +2,8 @@ package game.functionality;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class CountDown {
@@ -18,7 +18,7 @@ public class CountDown {
     private static final int COUNTDOWN_ZERO_DURATION = 3000;
     private static final int COUNTDOWN_DECREASE = 2;
 
-    public void countdown(StackPane root) {
+    public void countdown(Group root) {
         finished = false;
         Timeline countDownThreeTwo = new Timeline();
         Timeline countDownOne = new Timeline();
