@@ -1,6 +1,9 @@
 package game;
 
+import game.elements.Fire;
+import game.elements.Lives;
 import game.elements.Pipes;
+import game.elements.Villains;
 import game.functionality.Collision;
 import game.functionality.CountDown;
 import game.instructions.Instructions;
@@ -19,9 +22,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class FlappyHeroes extends Application {
@@ -32,7 +35,6 @@ public class FlappyHeroes extends Application {
     private ImageView imageView;
     private Instructions instructions = new Instructions();
     private Button backButton;
-    private BackgroundImage myBI;
     private Label insertName = new Label("Sisesta nimi:");
     private String playerName;
     private TextField getPlayerName = new TextField();
@@ -51,6 +53,9 @@ public class FlappyHeroes extends Application {
     private ImageView background = new ImageView(sceneBackground);
     private Image gameImage = new Image("resources/game_background.jpg");
     private ImageView gameplayImage = new ImageView(gameImage);
+    private Fire fires = new Fire();
+    private Villains villains = new Villains();
+    private Lives lives = new Lives();
 
     public static void main(String[] args) {
         launch(args);
@@ -142,7 +147,6 @@ public class FlappyHeroes extends Application {
         primaryStage.setTitle("game.FlappyHeroes");
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     private void changePage(PageChange page) throws IOException {
@@ -199,7 +203,7 @@ public class FlappyHeroes extends Application {
             newGame = false;
             actionTimer.stop();
             characterMovingUp.stop();
-            root.getChildren().removeAll(character.getChosenCharacter());
+            root.getChildren().removeAll(character.getChosenCharacter(), villains.getEnemy());
             Label gameOverText = new Label("GAME OVER");
             gameOverText.setTranslateX(0);
             gameOverText.setTranslateY(-90);
@@ -209,7 +213,7 @@ public class FlappyHeroes extends Application {
                 playAgain.getStyleClass().add("playAgain");
             }
         }
-}
+    }
 
     private void chooseACharacter() {
         character.getBatmanCharacterPicked().setOnMouseEntered(event ->
@@ -289,6 +293,15 @@ public class FlappyHeroes extends Application {
         public void handle(long now) {
             characterY = character.getChosenCharacter().getTranslateY() + CHARACTER_MOVING_UP_SPEED;
             character.getChosenCharacter().setTranslateY(characterY);
+            if (character.getChosenCharacter().getTranslateY() + 100 >= 800
+                    || character.getChosenCharacter().getTranslateY() <= 100) {
+                try {
+                    pipes.gameOverOutOfScreen(characterMovingUp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            collision.collide(character.getChosenCharacter(), fires.isShooting(), villains.getEnemy(), fires.getBulletFire(), fires.getFireImage(), lives);
         }
     };
 
@@ -300,6 +313,7 @@ public class FlappyHeroes extends Application {
         root.setOnMouseClicked(event -> {
             if (newGame) {
                 bringDown();
+                keyFunctionsShooting();
                 actionTimer.start();
             }
         });
@@ -308,16 +322,38 @@ public class FlappyHeroes extends Application {
     private AnimationTimer actionTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
-            if (character.getChosenCharacter().getTranslateY() + 100 >= 800
-                    || character.getChosenCharacter().getTranslateY() <= 100) {
+            villains.newVillainAppears(root);
+            fires.shoot(characterY);
+            villains.newEnemy();
+            if (pipes.isGameOver()) {
                 try {
-                    pipes.gameOverOutOfScreen(characterMovingUp);
+                    actionTimer.stop();
+                    changePage(PageChange.GAMEOVER);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            collision.collide(character.getChosenCharacter());
+            if (lives.isGameOver()) {
+                try {
+                    changePage(PageChange.GAMEOVER);
+                    pipes.setGameOver(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            collision.collide(character.getChosenCharacter(), fires.isShooting(), villains.getEnemy(),
+                    fires.getBulletFire(), fires.getFireImage(), lives);
         }
     };
 
+    private void keyFunctionsShooting() {
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.SPACE) {
+                if (!fires.isShooting()) {
+                    fires.newShooting(root);
+                    fires.setShooting(true);
+                }
+            }
+        });
+    }
 }
