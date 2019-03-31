@@ -56,6 +56,9 @@ public class FlappyHeroes extends Application {
     private Fire fires = new Fire();
     private Villains villains = new Villains();
     private Lives lives = new Lives();
+    private static final int LIVES_X_COORDINATE = 550;
+    private static final int LIVES_Y_COORDINATE = 10;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -153,6 +156,7 @@ public class FlappyHeroes extends Application {
         String name = page.name().toLowerCase();
         if (name.equals("heroes")) {
             root.getChildren().removeAll(root.getChildren());
+            lives.livesForNewGame();
             character.getCharacterOptions().setTranslateX(110);
             character.getCharacterOptions().setTranslateY(140);
             getPlayerName.setTranslateX(290);
@@ -176,8 +180,10 @@ public class FlappyHeroes extends Application {
                 NameError.nameTooLongError();
             } else {
                 root.getChildren().removeAll(root.getChildren());
+                lives.getLives().setTranslateX(LIVES_X_COORDINATE);
+                lives.getLives().setTranslateY(LIVES_Y_COORDINATE);
                 root.getChildren().addAll(gameplayImage, character.getChosenCharacter(), pipes.makeFirstPipe(), pipes.makeSecondPipe(),
-                        pipes.makeThirdPipe(), pipes.makeFourthPipe()
+                        pipes.makeThirdPipe(), pipes.makeFourthPipe(), lives.getLives()
                 );
                 newGame();
             }
@@ -270,6 +276,7 @@ public class FlappyHeroes extends Application {
         countDown.countdown(root);
         pipes.setGameOver(false);
         pipes.startPipes(root);
+        lives.setGameOver(false);
         startNewGame.start();
     }
 
@@ -297,11 +304,20 @@ public class FlappyHeroes extends Application {
                     || character.getChosenCharacter().getTranslateY() <= 100) {
                 try {
                     pipes.gameOverOutOfScreen(characterMovingUp);
+                    changePage(PageChange.GAMEOVER);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                root.getChildren().remove(character.getChosenCharacter());
+                characterMovingUp.stop();
+                newGame = false;
+                actionTimer.stop();
+                if (!root.getChildren().contains(playAgain)) {
+                    root.getChildren().add(playAgain);
+                }
+
             }
-            collision.collide(character.getChosenCharacter(), fires.isShooting(), villains.getEnemy(), fires.getBulletFire(), fires.getFireImage(), lives);
+
         }
     };
 
