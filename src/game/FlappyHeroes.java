@@ -143,6 +143,17 @@ public class FlappyHeroes extends Application {
 
         exit.setOnAction(event -> primaryStage.close());
 
+        playAgain.getStyleClass().add("playAgain");
+        playAgain.setOnMouseClicked(event -> {
+            try {
+                pipes.setGameOver(false);
+                changePage(PageChange.HEROES);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
         music.musicStartsOrStops();
         background.setFitWidth(800);
         background.setFitHeight(600);
@@ -216,7 +227,7 @@ public class FlappyHeroes extends Application {
             gameOverText.getStyleClass().add("labelGameOver");
             if (!root.getChildren().contains(playAgain)) {
                 root.getChildren().addAll(gameOverText, playAgain, backButton);
-                playAgain.getStyleClass().add("playAgain");
+//                playAgain.getStyleClass().add("playAgain");
             }
         }
     }
