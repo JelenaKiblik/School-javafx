@@ -222,8 +222,8 @@ public class FlappyHeroes extends Application {
             characterMovingUp.stop();
             root.getChildren().removeAll(character.getChosenCharacter(), villains.getEnemy());
             Label gameOverText = new Label("GAME OVER");
-            gameOverText.setTranslateX(0);
-            gameOverText.setTranslateY(-90);
+            gameOverText.setTranslateX(300);
+            gameOverText.setTranslateY(200);
             gameOverText.getStyleClass().add("labelGameOver");
             if (!root.getChildren().contains(playAgain)) {
                 root.getChildren().addAll(gameOverText, playAgain, backButton);
