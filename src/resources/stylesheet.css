@@ -62,6 +62,29 @@
     -fx-text-fill: red;
 }
 
+.labelScore {
+    -fx-font-size: 50 px;
+    -fx-text-fill: rgba(255,255,255);
+    -fx-font-family: Arial Verdana;
+    -fx-font-weight: bold;
+}
+
+.labelGameScore {
+    -fx-font-size: 30 px;
+    -fx-text-fill: rgba(255,255,255);
+    -fx-font-family: Arial Verdana;
+}
+
+.labelHighScore {
+    -fx-font-size: 25 px;
+    -fx-text-fill: rgba(255,255,255);
+    -fx-font-family: Arial Verdana;
+}
+
+
+
+
+
 .headingBorder {
     -fx-background-color: rgb(128, 0, 0.6);
     -fx-border-color: rgb(0, 0, 0);
