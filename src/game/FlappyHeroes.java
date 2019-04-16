@@ -58,6 +58,9 @@ public class FlappyHeroes extends Application {
     private Lives lives = new Lives();
     private static final int LIVES_X_COORDINATE = 550;
     private static final int LIVES_Y_COORDINATE = 10;
+    private static final int SCORE_LABEL_X_COORDINATE = 170;
+    private static final int SCORE_LABEL_Y_COORDINATE = 60;
+
 
 
     public static void main(String[] args) {
@@ -136,6 +139,7 @@ public class FlappyHeroes extends Application {
         backButton.setOnMouseClicked(event -> {
             try {
                 changePage(PageChange.HOMEPAGE);
+                scoreboard.scoreToZero();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -148,6 +152,7 @@ public class FlappyHeroes extends Application {
             try {
                 pipes.setGameOver(false);
                 changePage(PageChange.HEROES);
+                scoreboard.scoreToZero();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -193,8 +198,10 @@ public class FlappyHeroes extends Application {
                 root.getChildren().removeAll(root.getChildren());
                 lives.getLives().setTranslateX(LIVES_X_COORDINATE);
                 lives.getLives().setTranslateY(LIVES_Y_COORDINATE);
+                scoreboard.showScore().setTranslateX(200);
+                scoreboard.showScore().setTranslateY(10);
                 root.getChildren().addAll(gameplayImage, character.getChosenCharacter(), pipes.makeFirstPipe(), pipes.makeSecondPipe(),
-                        pipes.makeThirdPipe(), pipes.makeFourthPipe(), lives.getLives()
+                        pipes.makeThirdPipe(), pipes.makeFourthPipe(), lives.getLives(), scoreboard.showScore()
                 );
                 newGame();
             }
@@ -209,8 +216,13 @@ public class FlappyHeroes extends Application {
         }
         if (name.equals("score")) {
             root.getChildren().removeAll(root.getChildren());
+            Label scoreLabel = new Label();
+            scoreLabel.setTranslateX(SCORE_LABEL_X_COORDINATE);
+            scoreLabel.setTranslateY(SCORE_LABEL_Y_COORDINATE);
+            scoreLabel.setText("Tulemused");
+            scoreLabel.getStyleClass().add("labelScore");
+            root.getChildren().addAll(background, backButton, scoreLabel);
             scoreboard.readScores(root);
-            root.getChildren().addAll(background, backButton);
         }
         if (name.equals("homepage")) {
             root.getChildren().removeAll(root.getChildren());
@@ -286,7 +298,7 @@ public class FlappyHeroes extends Application {
         character.getChosenCharacter().setFitHeight(100);
         countDown.countdown(root);
         pipes.setGameOver(false);
-        pipes.startPipes(root);
+        pipes.startPipes(root, scoreboard);
         lives.setGameOver(false);
         startNewGame.start();
     }
@@ -314,7 +326,7 @@ public class FlappyHeroes extends Application {
             if (character.getChosenCharacter().getTranslateY() + 100 >= 800
                     || character.getChosenCharacter().getTranslateY() <= 100) {
                 try {
-                    pipes.gameOverOutOfScreen(characterMovingUp);
+                    pipes.gameOverOutOfScreen(characterMovingUp, playerName, scoreboard);
                     changePage(PageChange.GAMEOVER);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -336,7 +348,7 @@ public class FlappyHeroes extends Application {
         newGame = true;
         startNewGame.stop();
         characterMovingUp.start();
-        pipes.gameOverTouchedPipe(character.getChosenCharacter(), characterMovingUp);
+        pipes.gameOverTouchedPipe(character.getChosenCharacter(), characterMovingUp, scoreboard, playerName);
         root.setOnMouseClicked(event -> {
             if (newGame) {
                 bringDown();
@@ -368,8 +380,9 @@ public class FlappyHeroes extends Application {
                     e.printStackTrace();
                 }
             }
-            collision.collide(character.getChosenCharacter(), fires.isShooting(), villains.getEnemy(),
+            collision.collide(character.getChosenCharacter(), fires.isShooting(), villains.getEnemy(), scoreboard,
                     fires.getBulletFire(), fires.getFireImage(), lives);
+            scoreboard.showScore();
         }
     };
 

@@ -1,5 +1,6 @@
 package game.elements;
 
+import game.scoreboard.Scoreboard;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -76,17 +77,21 @@ public class Pipes {
         return pipeFour;
     }
 
-    public void startPipes(Group root) {
+    public void startPipes(Group root, Scoreboard scoreboard) {
         Bounds bounds = root.getBoundsInLocal();
         KeyValue secondFork = new KeyValue(pipeTwo.xProperty(), bounds.getMinX());
         KeyValue firstFork = new KeyValue(pipeOne.xProperty(), bounds.getMinX());
         KeyValue thirdFork = new KeyValue(pipeThree.xProperty(), bounds.getMinX());
         KeyValue fourthFork = new KeyValue(pipeFour.xProperty(), bounds.getMinX());
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(FIRST_PIPES_MOVING_DURATION), event1 -> {
+            scoreboard.addScore(1);
+            scoreboard.showScore();
             pipeTwo.setFitHeight(random.nextInt((HIGHEST_PIPE_ALLOWED - LOWEST_PIPE_ALLOWED) + 1) +
                     LOWEST_PIPE_ALLOWED);
         }, firstFork, secondFork);
         KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(SECOND_PIPES_MOVING_DURATION), event2 -> {
+            scoreboard.addScore(1);
+            scoreboard.showScore();
             pipeThree.setFitHeight(random.nextInt((HIGHEST_PIPE_ALLOWED - LOWEST_PIPE_ALLOWED) + 1) +
                     LOWEST_PIPE_ALLOWED);
         }, thirdFork, fourthFork);
@@ -100,7 +105,7 @@ public class Pipes {
         secondPipeStart.play();
     }
 
-    public void gameOverTouchedPipe(ImageView chosenCharacter, AnimationTimer readyForNewGame) {
+    public void gameOverTouchedPipe(ImageView chosenCharacter, AnimationTimer readyForNewGame, Scoreboard scoreboard, String playerName) {
         Timeline gameOverTouchedFork = new Timeline();
         KeyFrame keyFrame = new KeyFrame(Duration.millis(GAME_OVER_TOUCHED_PIPE_DURATION), event -> {
             Bounds character = chosenCharacter.localToScene(chosenCharacter.getBoundsInLocal());
@@ -114,6 +119,7 @@ public class Pipes {
                 readyForNewGame.stop();
                 pipeStart.stop();
                 secondPipeStart.stop();
+                scoreboard.writeScoresToFile(playerName);
                 gameOverTouchedFork.stop();
                 pipeStart.getKeyFrames().clear();
                 secondPipeStart.getKeyFrames().clear();
@@ -124,11 +130,12 @@ public class Pipes {
         gameOverTouchedFork.play();
     }
 
-    public void gameOverOutOfScreen(AnimationTimer readyForNewGame) throws IOException {
+    public void gameOverOutOfScreen(AnimationTimer readyForNewGame, String playerName, Scoreboard scoreboard) throws IOException {
         readyForNewGame.stop();
         pipeStart.stop();
         secondPipeStart.stop();
         pipeStart.getKeyFrames().clear();
+        scoreboard.writeScoresToFile(playerName);
         secondPipeStart.getKeyFrames().clear();
     }
 
