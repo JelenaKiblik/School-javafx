@@ -3,7 +3,6 @@ package game.functionality;
 
 import game.elements.Lives;
 import game.scoreboard.Scoreboard;
-import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -27,8 +26,8 @@ public class Collision {
         }
         if (objCharacter.intersects(objVillain) && enemy.isVisible()) {
             enemy.setVisible(false);
-            lives.loseALife();
-            lives.removeHeart();
+            lives.loseLife();
+            lives.removeLive();
         }
     }
 }

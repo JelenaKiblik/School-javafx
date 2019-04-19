@@ -61,8 +61,6 @@ public class FlappyHeroes extends Application {
     private static final int SCORE_LABEL_X_COORDINATE = 170;
     private static final int SCORE_LABEL_Y_COORDINATE = 60;
 
-
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -158,7 +156,6 @@ public class FlappyHeroes extends Application {
             }
         });
 
-
         music.musicStartsOrStops();
         background.setFitWidth(800);
         background.setFitHeight(600);
@@ -239,7 +236,6 @@ public class FlappyHeroes extends Application {
             gameOverText.getStyleClass().add("labelGameOver");
             if (!root.getChildren().contains(playAgain)) {
                 root.getChildren().addAll(gameOverText, playAgain, backButton);
-//                playAgain.getStyleClass().add("playAgain");
             }
         }
     }
@@ -307,7 +303,6 @@ public class FlappyHeroes extends Application {
         characterY = character.getChosenCharacter().getTranslateY() - BRING_CHARACTER_DOWN_HEIGHT;
         character.getChosenCharacter().setTranslateY(characterY);
     }
-
 
     private AnimationTimer startNewGame = new AnimationTimer() {
         @Override
