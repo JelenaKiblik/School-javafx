@@ -13,43 +13,43 @@ public class Character {
      */
     private Label heading = new Label();
     /**
-     * Image for the.
+     * Image for the spider-man.
      */
     private Image imageSpiderman = new Image(getClass().getResourceAsStream("/resources/spiderman_character.png"));
     /**
-     * Image for the.
+     * Image for the batman.
      */
     private Image imageBatman = new Image(getClass().getResourceAsStream("/resources/batman_character.png"));
     /**
-     * Image for the.
+     * Image for the superman.
      */
     private Image imageSuperman = new Image(getClass().getResourceAsStream("/resources/superman_character.png"));
     /**
-     * Image for the.
+     * Image when the spider-man is chosen.
      */
     private Image imageSpidermanChosen = new Image(getClass().getResourceAsStream("/resources/spiderman_chosen.png"));
     /**
-     * Image for the.
+     * Image when the batman is chosen.
      */
     private Image imageBatmanChosen = new Image(getClass().getResourceAsStream("/resources/batman_chosen.png"));
     /**
-     * Image for the.
+     * Image when the superman is chosen.
      */
     private Image imageSupermanChosen = new Image(getClass().getResourceAsStream("/resources/superman_chosen.png"));
     /**
-     * Image for the.
+     * Image view for the spider-man.
      */
     private ImageView imageSpidermanPicked = new ImageView(imageSpiderman);
     /**
-     * Image for the.
+     * Image view  for the batman.
      */
     private ImageView imageBatmanPicked = new ImageView(imageBatman);
     /**
-     * Image for the.
+     * Image view for the superman.
      */
     private ImageView imageSupermanPicked = new ImageView(imageSuperman);
     /**
-     * Image for the.
+     * Image for the shosen character.
      */
     private ImageView chosenCharacter = new ImageView();
     /**
