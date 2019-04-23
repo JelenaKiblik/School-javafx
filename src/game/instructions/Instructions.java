@@ -1,7 +1,6 @@
 package game.instructions;
 
 import javafx.scene.control.Label;
-import java.io.IOException;
 import javafx.scene.paint.Color;
 
 public class Instructions {
