@@ -2,7 +2,6 @@ package game.scoreboard;
 
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,30 +15,70 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 public class Scoreboard {
+    /**
+     * Label for displaying score.
+     */
     private Label scoreLabel = new Label();
+    /**
+     * Score in the beginning of the game.
+     */
     private int score = 0;
+    /**
+     * Hashmap for adding score.
+     */
     private Map<Integer, String> addToScores = new HashMap<>();
+    /**
+     * Hashmap for displaying scores.
+     */
     private Map<Integer, String> addToOutput = new HashMap<>();
+    /**
+     * First high score y coordinate.
+     */
     private static final int HIGH_SCORES_Y_COODRINATE = 150;
+    /**
+     * High score y coordinate increase.
+     */
     private static final int HIGH_SCORES_Y_COODRINATE_INCREASES = 50;
+    /**
+     * Player name x coordinates.
+     */
     private static final int PLAYER_NAME_X_COORDINATES = 200;
 
+    /**
+     * Getter for the game score.
+     *
+     * @return game score.
+     */
     private int getScore() {
         return score;
     }
 
+    /**
+     * Add score.
+     *
+     * @param amount amount of score that will be added.
+     */
     public void addScore(int amount) {
         score += amount;
     }
 
+    /**
+     * Displaying score.
+     *
+     * @return scoreLabel.
+     */
     public Label showScore() {
         scoreLabel.setText("Score: " + String.valueOf(getScore()));
         scoreLabel.getStyleClass().add("labelGameScore");
         return scoreLabel;
     }
 
+    /**
+     * Writing all the scores to file.
+     *
+     * @param name name of the player.
+     */
     public void writeScoresToFile(String name) {
         addToScores.put(score, name);
         File file = new File("scores.txt");
@@ -56,6 +95,11 @@ public class Scoreboard {
         }
     }
 
+    /**
+     * Sorting scores, changing format.
+     *
+     * @throws IOException for FileInputStream.
+     */
     private void sortScores() throws IOException {
         File input = new File("scores.txt");
         FileInputStream fis = new FileInputStream(input);
@@ -88,7 +132,12 @@ public class Scoreboard {
         }
     }
 
-
+    /**
+     * Read scores from the file to highscore page.
+     *
+     * @param scores all the scores.
+     * @throws IOException for sorting scores.
+     */
     public void readScores(Group scores) throws IOException {
         int y = HIGH_SCORES_Y_COODRINATE;
         sortScores();
@@ -117,8 +166,10 @@ public class Scoreboard {
         }
     }
 
+    /**
+     * Making score back to zero before new game starts.
+     */
     public void scoreToZero() {
         addScore(-score);
     }
 }
-

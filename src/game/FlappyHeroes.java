@@ -28,43 +28,145 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class FlappyHeroes extends Application {
-
+    /**
+     * Group for the elements.
+     */
     private Group root = new Group();
+    /**
+     * Game scene.
+     */
     private Scene scene = new Scene(root, 800, 600);
+    /**
+     * Vbox for buttons.
+     */
     private VBox vbButtons;
+    /**
+     * ImageView for header.
+     */
     private ImageView imageView;
+    /**
+     * Instructions class for instructions.
+     */
     private Instructions instructions = new Instructions();
+    /**
+     * Button for going back to first page.
+     */
     private Button backButton;
+    /**
+     * Label for inserting name.
+     */
     private Label insertName = new Label("Sisesta nimi:");
+    /**
+     * Player name.
+     */
     private String playerName;
+    /**
+     * TextField for player name.
+     */
     private TextField getPlayerName = new TextField();
+    /**
+     * Character class for characters.
+     */
     private Character character = new Character();
+    /**
+     * For checking if new game has started.
+     */
     private boolean newGame;
+    /**
+     * CountDown class for the countdown before the game starts.
+     */
     private CountDown countDown = new CountDown();
+    /**
+     * Collision class for checking collision between elements.
+     */
     private Collision collision = new Collision();
+    /**
+     * Pipes class for pipes.
+     */
     private Pipes pipes = new Pipes();
+    /**
+     * Music class for music.
+     */
     private Music music = new Music();
+    /**
+     * Chosen character Y coordinates.
+     */
     private double characterY;
+    /**
+     * Character moving up speed.
+     */
     private static final int CHARACTER_MOVING_UP_SPEED = 2;
+    /**
+     * Character height.
+     */
     private static final int BRING_CHARACTER_DOWN_HEIGHT = 40;
+    /**
+     * Play again button.
+     */
     private Button playAgain = new Button("Again?");
+    /**
+     * Scoreboard class for scoreboard.
+     */
     private Scoreboard scoreboard = new Scoreboard();
+    /**
+     * Image for the menu background.
+     */
     private Image sceneBackground = new Image("resources/super_hero.jpg");
+    /**
+     * Imageview for menu background.
+     */
     private ImageView background = new ImageView(sceneBackground);
+    /**
+     * Image for the game background.
+     */
     private Image gameImage = new Image("resources/game_background.jpg");
+    /**
+     * Imageview for the background.
+     */
     private ImageView gameplayImage = new ImageView(gameImage);
+    /**
+     * Fire class for shooting fires.
+     */
     private Fire fires = new Fire();
+    /**
+     * Villains class for enemies.
+     */
     private Villains villains = new Villains();
+    /**
+     * Lives class for checking lives.
+     */
     private Lives lives = new Lives();
+    /**
+     * Lives x coordinate.
+     */
     private static final int LIVES_X_COORDINATE = 550;
+    /**
+     * Lives y coordinate.
+     */
     private static final int LIVES_Y_COORDINATE = 10;
+    /**
+     * Score label x coordinate.
+     */
     private static final int SCORE_LABEL_X_COORDINATE = 170;
+    /**
+     * Score label y coordinate.
+     */
     private static final int SCORE_LABEL_Y_COORDINATE = 60;
 
+    /**
+     * Starts the game.
+     *
+     * @param args Objects and stages.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Start method for the game.
+     *
+     * @param primaryStage game stage.
+     */
     @Override
     public void start(Stage primaryStage) {
 
@@ -165,6 +267,12 @@ public class FlappyHeroes extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Page changer for the buttons.
+     *
+     * @param page enum PageChange
+     * @throws IOException for score, instructions and newGame method.
+     */
     private void changePage(PageChange page) throws IOException {
         String name = page.name().toLowerCase();
         if (name.equals("heroes")) {
@@ -240,6 +348,9 @@ public class FlappyHeroes extends Application {
         }
     }
 
+    /**
+     * Hero selection.
+     */
     private void chooseACharacter() {
         character.getBatmanCharacterPicked().setOnMouseEntered(event ->
                 character.getBatmanCharacterPicked().setImage(character.getBatman()));
@@ -287,6 +398,9 @@ public class FlappyHeroes extends Application {
         });
     }
 
+    /**
+     * Setting up new game and starting the countdown.
+     */
     private void newGame() {
         character.getChosenCharacter().setTranslateX(150);
         character.getChosenCharacter().setTranslateY(250);
@@ -299,11 +413,17 @@ public class FlappyHeroes extends Application {
         startNewGame.start();
     }
 
+    /**
+     * Moving the hero down.
+     */
     private void bringDown() {
         characterY = character.getChosenCharacter().getTranslateY() - BRING_CHARACTER_DOWN_HEIGHT;
         character.getChosenCharacter().setTranslateY(characterY);
     }
 
+    /**
+     * Animation timer for checking if a new game can start.
+     */
     private AnimationTimer startNewGame = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -313,6 +433,10 @@ public class FlappyHeroes extends Application {
         }
     };
 
+    /**
+     * Animation timer for hero moving up.
+     * Game over if hero is out of screen.
+     */
     private AnimationTimer characterMovingUp = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -339,6 +463,10 @@ public class FlappyHeroes extends Application {
         }
     };
 
+    /**
+     * Hero and pipes start to move.
+     * Checks for collision with pipes.
+     */
     private void heroMoving() {
         newGame = true;
         startNewGame.stop();
@@ -353,6 +481,10 @@ public class FlappyHeroes extends Application {
         });
     }
 
+    /**
+     * Animationtimer for the villains that appear during the game.
+     * Checks for collision and game over.
+     */
     private AnimationTimer actionTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -381,6 +513,9 @@ public class FlappyHeroes extends Application {
         }
     };
 
+    /**
+     * Key functions for shooting fires.
+     */
     private void keyFunctionsShooting() {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.SPACE) {
